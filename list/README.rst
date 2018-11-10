@@ -1,7 +1,9 @@
-## Synopsis
+Synopsis
+========
 
 C implementation of the List ADT.
 
-## Motivation
+Motivation
+==========
 
 Education
