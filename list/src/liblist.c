@@ -1,24 +1,58 @@
-// #include <liblist.h>
-// #include <list/liblist.h>
-// #include "list/liblist.h"
-
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <limits.h>
 
 #include <liblist.h>
 #include "liblist-private.h"
 
+
 int 
-list_init(struct list *lst, size_t size, size_t nmemb)
+list_init(list_ptr lst, size_t size, size_t nmemb)
 {
 	int init_result = 0;
-	lst->_elem_size = size; lst->_logical_size = nmemb;
-	init_result = _list_init(lst);
+	size_t alloc_size = 0;
+
+	if ( nmemb > LIST_MAX_LOG_SIZE )
+	{
+		init_result = -1;
+	}
+	else if ( size > LIST_MAX_ELEM_SIZE )
+	{
+		init_result = -1;
+	}
+	else
+	{
+		alloc_size = size * nmemb;
+	}
+
+	if (alloc_size == 0)
+	{
+		init_result = -1;
+	}
+	else 
+	{
+		lst->_elems = malloc(alloc_size);
+		lst->_allocated_size = alloc_size;
+		lst->_elem_size = size;
+		lst->_logical_size = 0;
+	}
+	
 	return init_result;
 }
 
-// TODO: maybe make it a variable-length argument? 
+list_ptr
+list_init_default()
+{
+	list_ptr lst = malloc(sizeof(struct list));
+	lst->_elems = malloc(LIST_DEFAULT_ALLOC_SIZE);
+	lst->_allocated_size = LIST_DEFAULT_ALLOC_SIZE;
+	lst->_elem_size = LIST_DEFAULT_ELEM_SIZE;
+	lst->_logical_size = 0;
+	
+	return lst;
+}
+
 void
 list_free(struct list *lst, void *free_func(void *elem))
 {
@@ -56,8 +90,7 @@ list_length(struct list *lst)
 
 
 int
-list_append(struct list *lst,
-			void *addr)
+list_append(struct list *lst, void *addr)
 {
 	if ( _list_requires_realloc(lst) )
 	{
@@ -78,8 +111,8 @@ list_append(struct list *lst,
 
 // TODO: fix index variable type
 void *
-list_get(struct list *lst,
-			  unsigned int index)
+list_get(struct list *lst, 
+		 unsigned long index)
 {
 	if( ! (index >= 0 && index <= lst->_logical_size) )
 		return NULL;
@@ -87,31 +120,6 @@ list_get(struct list *lst,
 	int offset = lst->_elem_size * index;
 	void *el_addr = (char *)lst->_elems + offset;
 	return el_addr;
-}
-
-
-static int 
-_list_init(struct list *lst) 
-{
-	if (! (lst->_elem_size >= 0) )
-		return -1;
-
-	if (! (lst->_logical_size >= 0) )
-		return -1;
-
-	if ( lst->_logical_size == 0 )
-		lst->_logical_size = LIST_DEFAULT_SIZE;
-
-	int chunk_size = lst->_logical_size * lst->_elem_size;
-	lst->_logical_size = 0;
-
-	
-	if ( (lst->_elems = malloc(chunk_size)) == NULL )
-		return -1;
-
-	lst->_allocated_size = chunk_size;
-
-	return 0;
 }
 
 

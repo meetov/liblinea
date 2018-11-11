@@ -4,9 +4,6 @@
 #include "liblist.h"
 
 
-static int 
-_list_init(struct list *lst);
-
 static int
 _list_extend_alloc_size(struct list *lst);
 
