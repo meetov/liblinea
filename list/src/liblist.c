@@ -60,7 +60,7 @@ list_free(struct list *lst, void *free_func(void *elem))
 		free(lst->_elems);
 	else
 	{
-		for(int i = 0; i < lst->_logical_size; ++i)
+		for(unsigned long i = 0; i < lst->_logical_size; ++i)
 		{
 			void *elem = list_get(lst, i);
 			free_func(elem);
@@ -114,7 +114,7 @@ void *
 list_get(struct list *lst, 
 		 unsigned long index)
 {
-	if( ! (index >= 0 && index <= lst->_logical_size) )
+	if( ! (index < lst->_logical_size) )
 		return NULL;
 	
 	int offset = lst->_elem_size * index;
@@ -142,7 +142,7 @@ static bool
 _list_requires_realloc(struct list *lst)
 {
 	bool is_full = false;
-	int elems_mem_size = lst->_logical_size * lst->_elem_size;
+	unsigned long elems_mem_size = lst->_logical_size * lst->_elem_size;
 
 	if (elems_mem_size >= lst->_allocated_size)
 		is_full = true;
