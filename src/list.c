@@ -76,20 +76,15 @@ int list_length(struct list *lst)
 int list_append(struct list *lst, void *addr) 
 {
 	int result = 0;
-	if (list_requires_realloc(lst)) 
-	{
-		int extended = list_extend_alloc_size(lst);
-		if (extended == -1)
-			result = -1;
-		else
-		{
-			void *logical_end = list_logical_end(lst);
-			memcpy(logical_end, addr, lst->_elem_size);
-			lst->_logical_size += 1;
-			result = 0;
 
-		}
-	}
+	if (list_requires_realloc(lst)) 
+		list_extend_alloc_size(lst);
+
+	void *logical_end = list_logical_end(lst);
+	memcpy(logical_end, addr, lst->_elem_size);
+	lst->_logical_size += 1;
+	result = 0;
+
 	return( result );
 }
 
