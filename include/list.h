@@ -14,9 +14,7 @@ extern "C" {
 #define LIST_DEFAULT_ALLOC_SIZE LIST_DEFAULT_INITIAL_SIZE * sizeof(void *) 
 #define LIST_DEFAULT_ELEM_SIZE sizeof(void *)
 
-
-struct list
-{
+struct list {
 	unsigned long _allocated_size;
 	unsigned long _logical_size;
 	unsigned long _elem_size;
@@ -25,32 +23,27 @@ struct list
 
 typedef struct list* list_ptr;
 
-int 
-list_init(list_ptr lst, size_t size, size_t nmemb);
+int
+list_init(struct list* lst, size_t size, size_t nmemb);
 
 list_ptr
 list_init_default();
 
-void 
-list_for_each(struct list *lst,  
-			  void (*operation)(void *addr, void *suppl),
-			  void *suppl);
+void
+list_for_each(struct list *lst, void (*operation)(void *addr, void *suppl),
+		void *suppl);
 
 void *
-list_get(struct list *lst,
-		 unsigned long index);
-
+list_get(struct list *lst, unsigned long index);
 
 int
-list_append(struct list *lst,
-			void *addr);
+list_append(struct list *lst, void *addr);
 
-int 
+int
 list_length(struct list *lst);
 
 void
-list_free(struct list *lst,
-		  void *free_func(void *elem));
+list_free(struct list *lst, void *free_func(void *elem));
 
 #ifdef __cplusplus
 }
