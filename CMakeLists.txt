@@ -9,7 +9,6 @@ set( List_VERSION_MINOR 0 )
 
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
-set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c11" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra" )
 
 file(GLOB SOURCE_FILES "${PROJECT_SOURCE_DIR}/src/*.c")

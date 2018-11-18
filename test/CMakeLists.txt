@@ -1,3 +1,5 @@
+set(MINUNIT_FLAGS -lrt -lm)
+
 file(GLOB files "test_*.c")
 foreach(file ${files})
     string(REGEX REPLACE "(^.*/|\\.[^.]*$)" "" file_without_ext ${file})
@@ -8,7 +10,16 @@ foreach(file ${files})
         PRIVATE 
         ${PROJECT_SOURCE_DIR}/src)
 
-    target_link_libraries(${file_without_ext} list)
+	target_include_directories(${file_without_ext} 
+        PRIVATE 
+        ${PROJECT_SOURCE_DIR}/include)
+
+	target_compile_options(${file_without_ext}
+		BEFORE
+		PUBLIC ${MINUNIT_FLAGS}
+	) # for minuint
+
+    target_link_libraries(${file_without_ext} linea)
 
     add_test(${file_without_ext} ${file_without_ext})
 
