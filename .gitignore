@@ -63,5 +63,8 @@ compile_commands.json
 CTestTestfile.cmake
 build/
 
-# ycm
+# ycm config
 .ycm_extra_conf.py
+
+# color coded config
+.color_coded
