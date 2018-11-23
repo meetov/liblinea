@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include "../src/list.c"
 
-int test_default_init (void)
+int 
+test_default_init (void)
 {
 	int result = 0;
 	list_ptr lst = list_init_default();

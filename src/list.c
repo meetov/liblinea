@@ -44,9 +44,7 @@ list_ptr list_init_default()
 
 void list_free(struct list *lst, void *free_func(void *elem)) 
 {
-	if (free_func == NULL)
-		free(lst->_elems);
-	else 
+	if (free_func != NULL)
 	{
 		for (unsigned long i = 0; i < lst->_logical_size; ++i) 
 		{
@@ -55,6 +53,7 @@ void list_free(struct list *lst, void *free_func(void *elem))
 		}
 	}
 
+	free(lst->_elems);
 }
 
 void list_for_each(struct list *lst, 
