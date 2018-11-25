@@ -22,7 +22,8 @@ int list_init(list_ptr lst, size_t size, size_t nmemb)
 	if (alloc_size == 0) {
 		init_result = -1;
 	} else {
-		lst->_elems = malloc(alloc_size);
+		// lst->_elems = malloc(alloc_size);
+		lst->_elems = calloc(nmemb, size);
 		lst->_allocated_size = alloc_size;
 		lst->_elem_size = size;
 		lst->_logical_size = 0;
