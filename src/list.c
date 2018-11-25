@@ -61,14 +61,14 @@ void list_for_each(struct list *lst,
 		   void (*operation)(void *addr, void *suppl),
 		   void *suppl) 
 {
-	for (int i = 0; i < list_length(lst); ++i) 
+	for (unsigned long i = 0; i < list_length(lst); ++i) 
 	{
 		void *elem = list_get(lst, i);
 		operation(elem, suppl);
 	}
 }
 
-int list_length(struct list *lst) 
+unsigned long list_length(struct list *lst) 
 {
 	return lst->_logical_size;
 }
@@ -78,12 +78,14 @@ int list_append(struct list *lst, void *addr)
 	int result = 0;
 
 	if (list_requires_realloc(lst)) 
-		list_extend_alloc_size(lst);
+		result = list_extend_alloc_size(lst);
 
-	void *logical_end = list_logical_end(lst);
-	memcpy(logical_end, addr, lst->_elem_size);
-	lst->_logical_size += 1;
-	result = 0;
+	if (result != -1)
+	{
+		void *logical_end = list_logical_end(lst);
+		memcpy(logical_end, addr, lst->_elem_size);
+		lst->_logical_size += 1;
+	}
 
 	return( result );
 }
@@ -98,7 +100,7 @@ list_get(struct list *lst, unsigned long index)
 	}
 	else
 	{
-		int offset = lst->_elem_size * index;
+		unsigned long offset = lst->_elem_size * index;
 		el_addr = (char *) lst->_elems + offset;
 	}
 
@@ -109,18 +111,23 @@ list_get(struct list *lst, unsigned long index)
  * TODO: check how to remedy from fail of realloc
  */
 
-static int list_extend_alloc_size(struct list *lst) 
+int list_extend_alloc_size(struct list *lst) 
 {
 	int allocate_code = 0;
-	lst->_allocated_size = lst->_allocated_size * 2;
-	lst->_elems = realloc(lst->_elems, lst->_allocated_size);
+	unsigned long new_alloc_size = lst->_allocated_size * 2UL;
 
-	if (lst->_elems == NULL)
+	if (new_alloc_size > LIST_MAX_ALLOC_SIZE)
 		allocate_code = -1;
+	else
+	{
+		lst->_elems = realloc(lst->_elems, new_alloc_size);
+		lst->_allocated_size = new_alloc_size;
+	}
+
 	return( allocate_code );
 }
 
-static bool list_requires_realloc(struct list *lst) 
+bool list_requires_realloc(struct list *lst) 
 {
 	bool is_full = false;
 	unsigned long elems_mem_size = lst->_logical_size * lst->_elem_size;
@@ -131,10 +138,10 @@ static bool list_requires_realloc(struct list *lst)
 	return( is_full );
 }
 
-static void *
+void *
 list_logical_end(struct list *lst) 
 {
-	int offset = lst->_logical_size * lst->_elem_size;
+	unsigned long offset = lst->_logical_size * lst->_elem_size;
 	void *logical_end = (char *) lst->_elems + offset;
 	return( logical_end );
 }

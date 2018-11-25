@@ -9,6 +9,7 @@ extern "C" {
 
 #define LIST_MAX_LOG_SIZE UINT_MAX
 #define LIST_MAX_ELEM_SIZE INT_MAX
+#define LIST_MAX_ALLOC_SIZE (unsigned long)LIST_MAX_LOG_SIZE * (unsigned long)LIST_MAX_ELEM_SIZE
 
 #define LIST_DEFAULT_INITIAL_SIZE 1024U
 #define LIST_DEFAULT_ALLOC_SIZE LIST_DEFAULT_INITIAL_SIZE * sizeof(void *) 
@@ -39,7 +40,7 @@ list_get(struct list *lst, unsigned long index);
 int
 list_append(struct list *lst, void *addr);
 
-int
+unsigned long
 list_length(struct list *lst);
 
 void
