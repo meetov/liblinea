@@ -1,0 +1,18 @@
+BasedOnStyle: llvm
+IndentWidth: 8
+PointerAlignment: Right
+SortIncludes: false
+TabWidth: 8
+UseTab: Always
+
+AlignOperands: true
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+
+SpaceAfterCStyleCast: false
+SpaceInEmptyParentheses: false
+SpacesInCStyleCastParentheses: false
+
