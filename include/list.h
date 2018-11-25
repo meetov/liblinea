@@ -22,12 +22,10 @@ struct list {
 	void *_elems;
 };
 
-typedef struct list* list_ptr;
-
 int
 list_init(struct list* lst, size_t size, size_t nmemb);
 
-list_ptr
+struct list *
 list_init_default();
 
 void

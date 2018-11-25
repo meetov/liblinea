@@ -6,7 +6,7 @@
 #include <list.h>
 #include "list-private.h"
 
-int list_init(list_ptr lst, size_t size, size_t nmemb) 
+int list_init(struct list *lst, size_t size, size_t nmemb) 
 {
 	int init_result = 0;
 	size_t alloc_size = 0;
@@ -32,9 +32,9 @@ int list_init(list_ptr lst, size_t size, size_t nmemb)
 	return( init_result );
 }
 
-list_ptr list_init_default()
+struct list *list_init_default()
 {
-	list_ptr lst = malloc(sizeof(struct list));
+	struct list *lst = malloc(sizeof(struct list));
 	lst->_elems = malloc(LIST_DEFAULT_ALLOC_SIZE);
 	lst->_allocated_size = LIST_DEFAULT_ALLOC_SIZE;
 	lst->_elem_size = LIST_DEFAULT_ELEM_SIZE;

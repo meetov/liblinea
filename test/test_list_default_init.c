@@ -6,7 +6,7 @@ int
 test_default_init (void)
 {
 	int result = 0;
-	list_ptr lst = list_init_default();
+	struct list *lst = list_init_default();
 
 	if ( lst->_elem_size != LIST_DEFAULT_ELEM_SIZE )
 	{
