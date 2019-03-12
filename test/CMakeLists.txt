@@ -12,7 +12,7 @@ foreach(file ${files})
         PRIVATE 
         ${PROJECT_SOURCE_DIR}/include)
 
-    target_link_libraries(${file_without_ext} linea)
+    target_link_libraries(${file_without_ext} list)
 
     add_test(${file_without_ext} ${file_without_ext})
 	        

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project( Liblinea LANGUAGES C )
+project( list LANGUAGES C )
 
 include(CTest)
 
@@ -13,11 +13,11 @@ set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra" )
 set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c11" )
 
 file(GLOB SOURCE_FILES "${PROJECT_SOURCE_DIR}/src/*.c")
-add_library( linea SHARED 
+add_library( list SHARED 
 	"${SOURCE_FILES}"
 )
 
-target_include_directories( linea PUBLIC ${PROJECT_SOURCE_DIR}/include )
+target_include_directories( list PUBLIC ${PROJECT_SOURCE_DIR}/include )
 
 if (BUILD_TESTING)
 	enable_testing()
