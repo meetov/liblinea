@@ -1,4 +1,4 @@
 Synopsis
 ========
 
-C implementations of linear data structures and algorithms.
+C implementation of dynamic array.
